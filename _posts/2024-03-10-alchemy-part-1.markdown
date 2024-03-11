@@ -148,7 +148,7 @@ Unfortunately, applying a Magic Stone of Luck takes as much time as applying a r
 
 After running this for a couple days, I collected about 50,000 samples. Let's see what effect we see with a Magic Stone of Luck compared to the ground truth of just an elixir and lucky powder.
 
-[![Elixir Powder and Stone](/assets/images/elixir_powder_and_stone.png)](/assets/images/elixir_powder_and_stone.png)
+[![Elixir Powder and Stone](/HyperbotDoc/assets/images/elixir_powder_and_stone.png)](/assets/images/elixir_powder_and_stone.png)
 
 Until we get to the end, where we have comparatively low sample size, it looks like the luck stone applies a flat additive 5% chance of success. How do we verify this? We can keep sampling, but we'll never know for sure. Is there some way that we can mathematically state some confidence about a result?
 
