@@ -20,7 +20,7 @@
 
 title: Hyperbot - MMORPG Autonomy
 url: "https://sandsnip3r.github.io/HyperbotDoc"
-baseurl: "/HyperbotDoc"
+baseurl: ""
 
 # Build settings
 theme: minimal-mistakes-jekyll
