@@ -27,6 +27,8 @@ theme: minimal-mistakes-jekyll
 plugins:
   - jekyll-feed
 
+repository: https://sandsnip3r.github.io/HyperbotDoc/
+
 search: true
 
 social:
