@@ -173,7 +173,7 @@ In Silkroad, there are two other sources of luck. The first is a premium subscri
 
 [![Premium]({{ site.baseurl }}/assets/images/premium.png)]({{ site.baseurl }}/assets/images/premium.png)
 
-Quickly collecting 3k samples, it does seem to be the case that Premium does what it says.
+Quickly collecting 30k samples, it does seem to be the case that Premium does what it says.
 
 [![Premium Chart]({{ site.baseurl }}/assets/images/premium_chart.png)]({{ site.baseurl }}/assets/images/premium_chart.png)
 
@@ -185,7 +185,7 @@ In order to exaggerate the effects when collecting data, I created an avatar wit
 
 [![40% Avatar]({{ site.baseurl }}/assets/images/avatar_with_40_luck.png)]({{ site.baseurl }}/assets/images/avatar_with_40_luck.png)
 
-Again, with just 3k samples, the data does seem to reflect a flat additive increase in success rate.
+Again, with just 30k samples, the data does seem to reflect a flat additive increase in success rate.
 
 [![40% Avatar Chart]({{ site.baseurl }}/assets/images/40_avatar_chart.png)]({{ site.baseurl }}/assets/images/40_avatar_chart.png)
 
