@@ -407,9 +407,13 @@ Probability of getting back to +5 is 73.46588637693769%.
 
 Summing up these probabilities, we get $$0.25 + 0.75 \cdot 0.7346588637693769 = 0.800994147827032675$$. Which means that we have an $$80.099\%$$ chance of ending at +5 or +6 with our starting 230 elixirs.
 
+Here is a plot showing the minimum number of elixirs for goals 1-7 and a few $$R$$ values.
+
+[![Minimum Elixirs]({{ site.baseurl }}/assets/images/minimum_elixirs.png)]({{ site.baseurl }}/assets/images/minimum_elixirs.png)
+
 ## Conclusion
 
-With this, we have one single configurable value which determines whether we take action or keep collecting. We just need to pick a good value for the ratio $$R$$. Your chosen value of $$R$$ depends on your preference for risk. $$R = 0$$ means that you will always try for the next plus as soon as you get an elixir. A $$R$$ close to $$1$$ means that you will stockpile many elixirs before any attempt at approving your weapon.
+With this, we have one single configurable value which determines whether we take action or keep collecting. We just need to pick a good value for the ratio $$R$$. Your chosen value of $$R$$ depends on your preference for risk. $$R = 0$$ means that you will always try for the next plus as soon as you get an elixir. A $$R$$ close to $$1$$ means that you will stockpile many elixirs before any attempt at improving your weapon.
 
 Traditionally, Silkroad bots, if they even have some form of auto alchemy, expose tons of knobs and configurations for what kind of alchemy the bot should do. With this, we narrow down the amount of configuration to at most one value. We also enable Hyperbot to choose when to do alchemy, rather than relying on the user decide when to stop training and start alchemy.
 
