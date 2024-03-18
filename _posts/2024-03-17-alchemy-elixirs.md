@@ -199,7 +199,7 @@ If our weapon is +0, then it seems obvious that we should immediately apply an e
 
 ### Mathematical Analysis
 
-I am going to explain a mathematical model that we can use to make the above decision. To keep it simple, I am going to use the success rates of just an elixir with a lucky powder, since this is the most common case. Luck stones can be rare, and avatars and premium subscriptions cost real money.
+I am going to explain a mathematical model that we can use to make the above decision. To keep the calculations simple, I am going to use the success rates from the database of an elixir combined with a lucky powder, since this is the most common case. Luck stones can be rare, and avatars and premium subscriptions cost real money.
 
 [![Elixir and Powder Rates]({{ site.baseurl }}/assets/images/elixir_and_powder_rates.png)]({{ site.baseurl }}/assets/images/elixir_and_powder_rates.png)
 _Here are our rates again, to easily reference._
@@ -207,22 +207,22 @@ _Here are our rates again, to easily reference._
 First, it will be easiest to work with an example. If we have a +1 weapon and have 3 elixirs, what is the probability that we can make it to +2?
 
 - If we succeed on our first attempt, then we're at +2 and we're done. There's a 70% chance of this.
-- If we fail, then we're back at +0 with 2 elixirs. Now we have to get to +2 without failing, which is 100%*70% = 70%.
+- If we fail, then we're back at +0 with 2 elixirs. Now we have to get to +2 without failing, which is $$100\% \cdot 70\% = 70\%$$.
 
 Our overall chance of success is
-$$ 70\% + 30\% * 70\% = 91\% $$
+$$ 70\% + 30\% \cdot 70\% = 91\% $$
 
-I'm not sure if you caught the pattern there, but let's define this generically. We want to calculate our chance of getting `+x` with `N` elixirs, starting from `+y`. The calculation can be done recursively using the following function `f`. The function `p(z)` is the probability of achieving `+z` from the above table. There are two possibilities:
+I'm not sure if you caught the pattern there, but let's define this generically. We want to calculate our chance of getting plus $$x$$ with $$N$$ elixirs, starting from plus $$y$$. The calculation can be done recursively using the following function $$f$$. We'll use the function $$p(z)$$, which is the probability of achieving plus $$z$$ from the above table. There are two possibilities:
 - We succeed and we're at one higher + than we were previously
-  - In this case, we recurse with our current + being one higher `y+1`, having one fewer elixir `N-1`, and having the same goal `x`
+  - In this case, we recurse with our current + being one higher $$y+1$$, having one fewer elixir $$N-1$$, and having the same goal $$x$$
 - We fail and we're back to 0
-  - In this case, we recurse with our current + at `0`, having one fewer elixir `N-1`, and having the same goal `x`
+  - In this case, we recurse with our current + at $$0$$, having one fewer elixir $$N-1$$, and having the same goal $$x$$
 
 $$ f(y, N, x) = \\
 \begin{align}
 \begin{aligned}
-&\quad\quad p(y+1) * f(y+1, N-1, x) +\\
-&(1-p(y+1)) * f(0, N-1, x)
+&p(y+1) \cdot f(y+1, N-1, x) +\\
+(1-&p(y+1)) \cdot f(0, N-1, x)
 \end{aligned}
 \end{align}
 $$
@@ -232,8 +232,8 @@ Using the example above with this equation, we get:
 $$ f(1, 3, 2) = \\
 \begin{align}
 \begin{aligned}
-&0.70 * f(2, 2, 2) +\\
-&0.30 * f(0, 2, 2)
+0.70 \cdot &f(2, 2, 2) +\\
+0.30 \cdot &f(0, 2, 2)
 \end{aligned}
 \end{align}
 $$
@@ -244,8 +244,8 @@ The second evaluation of `f`, `f(0,2,2)`, recurses as follows:
 $$ f(0, 2, 2) = \\
 \begin{align}
 \begin{aligned}
-&1.00 * f(1, 1, 2) +\\
-&0.00 * f(0, 1, 2)
+1.00 \cdot &f(1, 1, 2) +\\
+0.00 \cdot &f(0, 1, 2)
 \end{aligned}
 \end{align}
 $$
@@ -255,8 +255,8 @@ The first evaluation of `f`, `f(1,1,2)`, recurses as follows:
 $$ f(1, 1, 2) = \\
 \begin{align}
 \begin{aligned}
-&0.70 * f(2, 0, 2) +\\
-&0.30 * f(0, 0, 2)
+0.70 \cdot &f(2, 0, 2) +\\
+0.30 \cdot &f(0, 0, 2)
 \end{aligned}
 \end{align}
 $$
@@ -267,13 +267,12 @@ The second evaluation of `f`, `f(0,0,2)`, evaluates to 0%, because there are no 
 $$ f(1, 3, 2) = \\
 \begin{align}
 \begin{aligned}
-&0.70 * 1.00 +\\
-&0.30 *
-1.00 *
+&0.70 \cdot 1.00 +\\
+&0.30 \cdot 1.00 \cdot
 \left(
 \begin{aligned}
-&0.70 * 1.00 +\\
-&0.30 * 0.00
+&0.70 \cdot 1.00 +\\
+&0.30 \cdot 0.00
 \end{aligned}
 \right)
 \end{aligned}
@@ -296,34 +295,121 @@ If we plot this requirement for a few more goals, we see that it requires expone
 
 [![Elixirs Required 2]({{ site.baseurl }}/assets/images/elixirs_required_2.png)]({{ site.baseurl }}/assets/images/elixirs_required_2.png)
 
+### Strategy
+
+The above calculations are based on a specific strategy for achieving a goal. When calculating the probability of getting to a specified goal, we assume that we're going to spend all of our elixirs to get that goal, even if improbable. When actually playing Silkroad this isn't the best strategy. This strategy is likely to leave the player with a low + weapon.
+
+Instead, the player should stop once they achieve as high of a plus as they think they can with the elixirs they have. This will usually mean that the player stops early and has some leftover elixirs. The player then collects elixirs until they have enough to start trying again.
+
 ### The Final Decision
 
-With all of that figured out, how do we use this to make a decision in Hyperbot? Thanks to a great insight from a friend and coworker, [Reed](https://github.com/reedwm), we can simply compare our probability of going up with our probability of going down. Lets walk through this with another example. Let's say that our current weapon is +5 and we wonder how many elixirs we should collect before we try for +6. We know that when we eventually try +6, we have a 25% chance of success. Let's use our recursive equation and a little python to see how many elixirs we need to have a 75% chance of getting back to +5 if we fail.
+With the probabilities of success figured out, how do we use this to make a decision with Hyperbot? Thanks to a great insight from a friend and coworker, [Reed](https://github.com/reedwm), we can simply compare the upside against the downside. Specifically, we will compare the probability of our plus being greater than or equal to our current plus against the probability of it ending at a lower plus. We'll call this ratio $$R$$.
+
+We'll use the same $$p(z)$$ as above which gives the probability of achieving plus $$z$$. First, we define a function $$b(x, N)$$ as follows
+
+$$
+b(x,N) = 
+\begin{cases} 
+True &
+\begin{aligned}
+&p(x+1) + \\
+(1-&p(x+1)) \cdot g(0, N-1, x)
+\end{aligned} \geq R \\
+False & otherwise
+\end{cases}
+$$
+
+This returns $$True$$ if the sum of the following is at least our specified ratio $$R$$:
+- The probability of success when trying for $$x+1$$
+- The probability of returning to $$x$$ after failing $$x+1$$
+
+As you see referenced in $$b$$, we also define a new function $$g(y, N, x)$$. This function $$g$$ returns the probability of getting plus $$x$$ with $$N$$ elixirs, starting from plus $$y$$, but now while following our strategy. The function $$g$$ is defined as follows
+
+$$
+g(y, N, x) = 
+\begin{cases}
+1 & y == x \\
+0 & y + N < x \\
+0 & b(y, N) == False \\
+\begin{aligned}
+&p(y+1) \cdot g(y+1, N-1, x) +\\
+(1-&p(y+1)) \cdot g(0, N-1, x)
+\end{aligned}
+& otherwise
+\end{cases}
+$$
+
+_Note that $$g$$ depends on $$b$$, which means the probability of achieving the given goal will be 0 if the strategy decides not to take action._
+
+The cases of the above function are:
+- $$y==x$$, which means we've reached our goal
+- $$y+N < x$$, which means we do not have enough elixirs to reach our goal
+- $$b(y,N) == False$$, which means that the bot would not take action
+- The last case sums the probability of succeeding and continuing towards our goal with the probability of failing and continuing towards our goal.
+
+#### Simple Example
+
+Let's walk through this with a simple example. We will define our ratio, $$R$$, to be 0.8. This means that we will only take action if we're 4x (0.8 vs 0.2) as likely to achieve a plus greater than or equal to our current plus than we are to settle with a lower plus. Let's say that our current weapon is +1 and we have 2 elixirs. Should we try for +2? As stated above, we're using the luck rates with lucky powders, which means the probability of going from +0 to +1 is 100% and the probability of going from +1 to +2 is 70%.
+
+Evaluating $$b(1,2)$$ we get the following:
+$$
+0.7 + 0.3 \cdot g(0,1,1)
+$$
+
+This call to $$g$$ is asking "if we're at +0 and have 1 elixir, what is the probability that we get to +1?" Or, equivalently, "what is the probability of getting back to where we were before we failed +2?"
+
+Since the probability of going from +0 to +1 is 100%, $$g(0,1,1)$$ returns 1.0. Our evaluation of $$g$$ within $$b(1,2)$$ results in $$1.0$$ which is greater than $$0.8$$, so we will attempt a higher plus.
+
+If we think about this for a second, what did we expect we should do? The probability of success is $$0.7$$, which is lower than our $$R$$ of $$0.8$$. But we're not just comparing our chances of success, we're also accounting for our chance to get back where we are. We have a $$70\%$$ chance of success and a $$30\%$$ chance of failure. If we do fail, we have one elixir left and a 100% chance of getting to +1. In this case, of course we should try.
+
+#### Practical Example
+
+With these equations, we can write a program to find the minimum number of elixirs required to try for the next plus. Let's say we're at +5 and we want a 4x chance of not ending at a lower plus. How many elixirs do we need before trying?
 
 ```py
+probabilities = [ 1.0, 0.7, 0.5, 0.27, 0.25, 0.25 ]
+R = 0.8
+current = 5
+goal = 6
+
 @functools.lru_cache(maxsize=None)
-def calculate(current, numElixirs, goal):
+def takeAction(current, numElixirs):
+  return probabilities[current] + (1-probabilities[current])*probability(0,numElixirs-1,current) >= R
+
+@functools.lru_cache(maxsize=None)
+def probability(current, numElixirs, goal):
   if current == goal:
     return 1.0
-  if numElixirs == 0:
+  if current + numElixirs < goal:
     return 0.0
-  return probabilities[current+1]  * calculate(current+1, numElixirs-1, goal) + \
-    (1 - probabilities[current+1]) * calculate(0,         numElixirs-1, goal)
+  if not takeAction(current, numElixirs):
+    return 0.0
+  return probabilities[current]  * probability(current+1, numElixirs-1, goal) + \
+    (1 - probabilities[current]) * probability(0,         numElixirs-1, goal)
 
 count = 0
 while True:
-  probability = calculate(0, count, 5)
-  if probability > 0.75:
-    print(count)
+  result = probability(current, count, goal)
+  if result > 0.0:
+    print(f'{count} minimum elixirs required.')
+    print(f'Probability of achieving goal is {result*100}%.')
+    print(f'Probability of getting back to +{current} is {probability(0, count-1, current)*100}%.')
     break
   count += 1
 ```
 
-We find that it takes 507 elixirs to have a 75% chance of getting back to +5 if we fail. In contrast, we have a 25% chance of ending up at a + lower than +5. All together, that means that if we have 508 elixirs and we try for +6, we have a 25% chance of going up and also a 25% chance of going down. It is just as likely that we go up as go down; they are a 1:1 ratio.
+The output of this program is
+```
+230 minimum elixirs required.
+Probability of achieving goal is 25.0%.
+Probability of getting back to +5 is 73.46588637693769%.
+```
 
-With this, we can have one single configurable value which determines whether we take action or keep collecting. We would just need to pick a good value for the multiplier `x` so that the bot is `x` times as likely to improve their item as they are harming their item.
+Summing up these probabilities, we get $$0.25 + 0.75 \cdot 0.7346588637693769 = 0.800994147827032675$$. Which means that we have an $$80.099\%$$ chance of ending at +5 or +6 with our starting 230 elixirs.
 
 ## Conclusion
+
+With this, we have one single configurable value which determines whether we take action or keep collecting. We just need to pick a good value for the ratio $$R$$. Your chosen value of $$R$$ depends on your preference for risk. $$R = 0$$ means that you will always try for the next plus as soon as you get an elixir. A $$R$$ close to $$1$$ means that you will stockpile many elixirs before any attempt at approving your weapon.
 
 Traditionally, Silkroad bots, if they even have some form of auto alchemy, expose tons of knobs and configurations for what kind of alchemy the bot should do. With this, we narrow down the amount of configuration to at most one value. We also enable Hyperbot to choose when to do alchemy, rather than relying on the user decide when to stop training and start alchemy.
 
@@ -331,6 +417,7 @@ Traditionally, Silkroad bots, if they even have some form of auto alchemy, expos
 
 This post skipped some important open questions, such as:
 - Do different items have different chances of success?
+  - _I think the answer is no. People who have done reverse engineering of the gameserver have not found such a field in the_ `CGItem` _structure._
 - Can we use reverse engineering to figure out the effect of Magic Stone of Luck?
 - If you have just a few luck stones, when should you use them?
   - How does that affect the calculation?
