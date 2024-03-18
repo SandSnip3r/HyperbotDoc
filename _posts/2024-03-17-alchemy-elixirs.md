@@ -429,3 +429,11 @@ This post skipped some important open questions, such as:
   - How do you not waste resources enhancing an item which is soon to be obsolete?
   - Maybe you got a new weapon which you're not high enough level to use yet. Maybe this weapon is instead a better one to invest your resources in?
 - What if you have multiple weapons? Which one do you enhance? Always the weakest one? What if one is your primary and the other is an only occasionally-used secondary?
+
+I also did not mention the Magic Stone of Steady, Magic Stone of Astral, or Magic Stone of Immortal.
+- Steady prevents the durability of your item from being reduced after failing anything higher than +5. The Steady magic option is consumed upon failure.
+  - These are typically cheap and the drawback of losing weapon durability is high. These should always be used.
+- Immortal prevents an item from being completely destroyed when failing anything higher than +6, which is always a risk. The Immortal magic option is consumed upon failure.
+  - These cost real money or items can drop already with some Immortal magic options.
+- Astral prevents an item from falling below +4 when failing. Rather than going back to +0, the item goes back to +4. The Astral magic option is consumed upon failure.
+  - These cost real money.
