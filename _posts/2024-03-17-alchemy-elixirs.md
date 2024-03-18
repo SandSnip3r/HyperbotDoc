@@ -14,7 +14,7 @@ Alchemy in Silkroad Online refers to the process of enhancing equipment using it
 
 [![optlevel]({{ site.baseurl }}/assets/images/optlevel.png)]({{ site.baseurl }}/assets/images/optlevel.png)
 
-_This image shows a weapon which is +7. The physical attack power and magical attack power are the only stats which benefit from a higher +._
+_This image shows a weapon which is +7. The physical attack power and magical attack power are the only stats which benefit from a higher plus._
 
 In order to increase the plus of an item, there are a few alchemy materials that we need. The primary material is called an _Intensifying Elixir_. There are separate elixirs for each class of item, weapon elixirs, protector elixirs, accessory elixirs, and shield elixirs. When using an elixir to enhance an item, there is a chance of success or failure. If you are successful, the equipment’s enhancement level will increase by 1. If you are unsuccessful, the equipment’s enhancement level will drop to 0. Whether you succeed or fail, the elixir will be consumed.
 
@@ -69,9 +69,9 @@ Running this for a little less than a full day, I collected 30k samples:
 [![Elixir Only]({{ site.baseurl }}/assets/images/elixir_only.png)]({{ site.baseurl }}/assets/images/elixir_only.png)
 _This plot shows the measured success rate (green) and the sample size (transparent purple)._
 
-The first thing we observe is that it appears that not all enhancement levels are equally likely. The lower ones are quite a bit easier. The second thing we observe is that it's very hard to get a high +. Using these values, you would have approximately a 0.2% chance of getting +5 starting from +0 using 5 elixirs without failing.
+The first thing we observe is that it appears that not all enhancement levels are equally likely. The lower ones are quite a bit easier. The second thing we observe is that it's very hard to get a high plus. Using these values, you would have approximately a 0.2% chance of getting +5 starting from +0 using 5 elixirs without failing.
 
-$$ .5058*.4007*.2999*.1913*.1768 = 0.002056 $$
+$$ .5058 \cdot .4007 \cdot .2999 \cdot .1913 \cdot .1768 = 0.002056 $$
 
 ### Lucky Powder
 
@@ -111,7 +111,7 @@ For the above code, the output is
 17,12,12,12
 ```
 
-If we interpret these as percent probabilities of success, these values very closely match our experimental results, at least for the + values we were able to achieve with the bot.
+If we interpret these as percent probabilities of success, these values very closely match our experimental results, at least for the plus values we were able to achieve with the bot.
 
 [![Compare Elixir]({{ site.baseurl }}/assets/images/compare_elixir.png)]({{ site.baseurl }}/assets/images/compare_elixir.png)
 
@@ -135,7 +135,7 @@ This pretty closely aligns with our data, except for +6 and higher, what's going
 
 ### Magic Stone of Luck
 
-Great! We have ground truth data for elixirs and lucky powders. What effect does a Magic Stone of Luck have? I also asked around in the community, and it sounds like this data is not available in the database; people generally think it's hard-coded in the gameserver. This sounds like a great excuse to go back to using Hyperbot to collect data. We only need to make a small change to the bot to add lucky to the item for each attempt. Also, given the natural difficulty of getting higher + values, our data was suffering from low sample size at higher + values. To account for this, any time we fail, rather than starting over again, we'll just drop our blade and spawn a new blade with a non-zero +. For example, to spawn a +5 blade, the GM command is `/makeitem ITEM_CH_BLADE_10_A 5`. When spawning a blade, we can choose any + up to +8. I'm not sure why GM commands limit us to +8, given that the maximum + of an item is the max of an unsigned 8-bit int (+255), but oh well. We will cycle through 1,2,3,4,5,6,7,8 every time we spawn a new blade. This should do fine for our data distribution.
+Great! We have ground truth data for elixirs and lucky powders. What effect does a Magic Stone of Luck have? I also asked around in the community, and it sounds like this data is not available in the database; people generally think it's hard-coded in the gameserver. This sounds like a great excuse to go back to using Hyperbot to collect data. We only need to make a small change to the bot to add lucky to the item for each attempt. Also, given the natural difficulty of getting higher plus values, our data was suffering from low sample size at higher plus values. To account for this, any time we fail, rather than starting over again, we'll just drop our blade and spawn a new blade with a non-zero plus. For example, to spawn a +5 blade, the GM command is `/makeitem ITEM_CH_BLADE_10_A 5`. When spawning a blade, we can choose any plus up to +8. I'm not sure why GM commands limit us to +8, given that the maximum plus of an item is the max of an unsigned 8-bit int (+255), but oh well. We will cycle through 1,2,3,4,5,6,7,8 every time we spawn a new blade. This should do fine for our data distribution.
 
 The updated automation process looks like:
 1. Spawn an elixir and pick it up off the ground if I don't have one
@@ -153,7 +153,7 @@ After running this for a couple days, I collected about 50,000 samples. Let's se
 
 [![Elixir Powder and Stone]({{ site.baseurl }}/assets/images/elixir_powder_and_stone.png)]({{ site.baseurl }}/assets/images/elixir_powder_and_stone.png)
 
-Apart from the highest + values, where we have comparatively low sample size, it looks like the luck stone applies a flat additive 5% chance of success. How do we verify this? We can keep sampling, but we'll never know for sure. Is there some way that we can mathematically state some confidence about a result?
+Apart from the highest plus values, where we have comparatively low sample size, it looks like the luck stone applies a flat additive 5% chance of success. How do we verify this? We can keep sampling, but we'll never know for sure. Is there some way that we can mathematically state some confidence about a result?
 
 #### Wilson Score Interval
 
@@ -213,10 +213,10 @@ Our overall chance of success is
 $$ 70\% + 30\% \cdot 70\% = 91\% $$
 
 I'm not sure if you caught the pattern there, but let's define this generically. We want to calculate our chance of getting plus $$x$$ with $$N$$ elixirs, starting from plus $$y$$. The calculation can be done recursively using the following function $$f$$. We'll use the function $$p(z)$$, which is the probability of achieving plus $$z$$ from the above table. There are two possibilities:
-- We succeed and we're at one higher + than we were previously
-  - In this case, we recurse with our current + being one higher $$y+1$$, having one fewer elixir $$N-1$$, and having the same goal $$x$$
+- We succeed and we're at one higher plus than we were previously
+  - In this case, we recurse with our current plus being one higher $$y+1$$, having one fewer elixir $$N-1$$, and having the same goal $$x$$
 - We fail and we're back to 0
-  - In this case, we recurse with our current + at $$0$$, having one fewer elixir $$N-1$$, and having the same goal $$x$$
+  - In this case, we recurse with our current plus at $$0$$, having one fewer elixir $$N-1$$, and having the same goal $$x$$
 
 $$ f(y, N, x) = \\
 \begin{align}
@@ -238,7 +238,7 @@ $$ f(1, 3, 2) = \\
 \end{align}
 $$
 
-The first evaluation of `f`, `f(2,2,2)`, evaluates to 100%, because the target + is equal to the goal +.
+The first evaluation of `f`, `f(2,2,2)`, evaluates to 100%, because the target plus is equal to the goal plus.
 The second evaluation of `f`, `f(0,2,2)`, recurses as follows:
 
 $$ f(0, 2, 2) = \\
@@ -261,7 +261,7 @@ $$ f(1, 1, 2) = \\
 \end{align}
 $$
 
-Finally, the first evaluation of `f`, `f(2,0,2)`, evaluates to 100%, because the target + is equal to the goal +.
+Finally, the first evaluation of `f`, `f(2,0,2)`, evaluates to 100%, because the target plus is equal to the goal plus.
 The second evaluation of `f`, `f(0,0,2)`, evaluates to 0%, because there are no elixirs left. Fully expanded out, the equation is
 
 $$ f(1, 3, 2) = \\
@@ -291,13 +291,13 @@ Each of these labeled points shows how many elixirs are required to have at leas
 - To have at least a 90% chance of achieving +5, starting from +0, we need at least 840 elixirs
 - To have at least a 90% chance of achieving +6, starting from +0, we need at least 3384 elixirs
 
-If we plot this requirement for a few more goals, we see that it requires exponentially more elixirs to reach a higher +. This is unsurpising.
+If we plot this requirement for a few more goals, we see that it requires exponentially more elixirs to reach a higher plus. This is unsurpising.
 
 [![Elixirs Required 2]({{ site.baseurl }}/assets/images/elixirs_required_2.png)]({{ site.baseurl }}/assets/images/elixirs_required_2.png)
 
 ### Strategy
 
-The above calculations are based on a specific strategy for achieving a goal. When calculating the probability of getting to a specified goal, we assume that we're going to spend all of our elixirs to get that goal, even if improbable. When actually playing Silkroad this isn't the best strategy. This strategy is likely to leave the player with a low + weapon.
+The above calculations are based on a specific strategy for achieving a goal. When calculating the probability of getting to a specified goal, we assume that we're going to spend all of our elixirs to get that goal, even if improbable. When actually playing Silkroad this isn't the best strategy. This strategy is likely to leave the player with a low plus weapon.
 
 Instead, the player should stop once they achieve as high of a plus as they think they can with the elixirs they have. This will usually mean that the player stops early and has some leftover elixirs. The player then collects elixirs until they have enough to start trying again.
 
