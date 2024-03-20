@@ -10,13 +10,13 @@ In this post, I am going to talk about alchemy in Silkroad Online and why it’s
 
 ### Alchemy in Silkroad Online
 
-Alchemy in Silkroad Online refers to the process of enhancing equipment using items and luck. There are a few different focus areas of alchemy in Silkroad; I am only going to talk about the _plus_ or _+_ of an item, also known as _enhancement level_ or _opt level_. There are a few different classes of items in Silkroad which are weapon, shield, protector, and accessory. The plus of a piece of equipment is the most general way to improve the quality. For weapons, a higher plus results in higher magical and/or physical damage. For protector, shield, and accessories, a higher plus results in higher magical and/or physical defense.
+Alchemy in Silkroad Online refers to the process of enhancing equipment using items and luck. There are a few different focus areas of alchemy in Silkroad; I am only going to talk about the _plus_ or _+_ of an item, also known as _enhancement level_ or _opt level_. There are a few different classes of items in Silkroad which are weapon, shield, protector, and accessory. The plus of a piece of equipment is the most general way to improve the quality. For weapons, a higher plus results in higher magical and/or physical damage. For protector, shield, and accessory types, a higher plus results in higher magical and/or physical defense.
 
 [![optlevel]({{ site.baseurl }}/assets/images/optlevel.png)]({{ site.baseurl }}/assets/images/optlevel.png)
 
 _This image shows a weapon which is +7. The physical attack power and magical attack power are the only stats which benefit from a higher plus._
 
-In order to increase the plus of an item, there are a few alchemy materials that we need. The primary material is called an _Intensifying Elixir_. There are separate elixirs for each class of item, weapon elixirs, protector elixirs, accessory elixirs, and shield elixirs. When using an elixir to enhance an item, there is a chance of success or failure. If you are successful, the equipment’s enhancement level will increase by 1. If you are unsuccessful, the equipment’s enhancement level will drop to 0. Whether you succeed or fail, the elixir will be consumed.
+In order to increase the plus of an item, there are a few alchemy materials that we need. The primary material is called an _Intensifying Elixir_. There are separate elixirs for each class of item: weapon elixirs, protector elixirs, accessory elixirs, and shield elixirs. When using an elixir to enhance an item, there is a chance of success or failure. If you are successful, the equipment’s enhancement level will increase by 1. If you are unsuccessful, the equipment’s enhancement level will drop to 0. Whether you succeed or fail, the elixir will be consumed.
 
 [![alchemy]({{ site.baseurl }}/assets/images/alchemy.gif)]({{ site.baseurl }}/assets/images/alchemy.gif)
 
