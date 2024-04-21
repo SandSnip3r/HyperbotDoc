@@ -2,6 +2,7 @@
 layout: single
 title:  "Silkroad Online Alchemy - Elixirs"
 # classes: wide
+toc: true
 ---
 
 ## Introduction
@@ -12,20 +13,20 @@ In this post, I am going to talk about alchemy in Silkroad Online and why it’s
 
 Alchemy in Silkroad Online refers to the process of enhancing equipment using items and luck. There are a few different focus areas of alchemy in Silkroad; I am only going to talk about the _plus_ or _+_ of an item, also known as _enhancement level_ or _opt level_. There are a few different classes of items in Silkroad which are weapon, shield, protector, and accessory. The plus of a piece of equipment is the most general way to improve the quality. For weapons, a higher plus results in higher magical and/or physical damage. For protector, shield, and accessory types, a higher plus results in higher magical and/or physical defense.
 
-[![optlevel]({{ site.baseurl }}/assets/images/optlevel.png)]({{ site.baseurl }}/assets/images/optlevel.png)
+[![optlevel]({{ site.baseurl }}/assets/images/alchemy-elixirs/optlevel.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/optlevel.png)
 
 _This image shows a weapon which is +7. The physical attack power and magical attack power are the only stats which benefit from a higher plus._
 
 In order to increase the plus of an item, there are a few alchemy materials that we need. The primary material is called an _Intensifying Elixir_. There are separate elixirs for each class of item: weapon elixirs, protector elixirs, accessory elixirs, and shield elixirs. When using an elixir to enhance an item, there is a chance of success or failure. If you are successful, the equipment’s enhancement level will increase by 1. If you are unsuccessful, the equipment’s enhancement level will drop to 0. Whether you succeed or fail, the elixir will be consumed.
 
-[![alchemy]({{ site.baseurl }}/assets/images/alchemy.gif)]({{ site.baseurl }}/assets/images/alchemy.gif)
+[![alchemy]({{ site.baseurl }}/assets/images/alchemy-elixirs/alchemy.gif)]({{ site.baseurl }}/assets/images/alchemy-elixirs/alchemy.gif)
 
 _This gif shows an attempt to turn a +5 blade into a +6 blade using one weapon elixir. The attempt fails and the blade is reset back to +0._
 
 Along with elixirs, there are a few other items which improve your chances of a successful enhancement. The most common item used when enhancing items is a _Lucky Powder_. Whether you succeed or fail, the lucky powder will be consumed. A more rare item which helps your chances of success is a _Magic Stone of Luck_. A Magic Stone of Luck has different application mechanics than a lucky powder. Magic Stones are applied to equipment items in a separate alchemy step and can add or increase a “magic option” on the equipment. In the case of the Magic Stone of Luck, it has a 100% chance of success when being applied to the weapon and it grants the item “1 Lucky”. The next elixir that is used on a piece of equipment with a Lucky magic option will have a higher chance of success and consume the Lucky magic option.
 
-[![luck stone]({{ site.baseurl }}/assets/images/magic_stone_of_luck.png)]({{ site.baseurl }}/assets/images/magic_stone_of_luck.png)
-[![lucky]({{ site.baseurl }}/assets/images/lucky_magic_option.png)]({{ site.baseurl }}/assets/images/lucky_magic_option.png)
+[![luck stone]({{ site.baseurl }}/assets/images/alchemy-elixirs/magic_stone_of_luck.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/magic_stone_of_luck.png)
+[![lucky]({{ site.baseurl }}/assets/images/alchemy-elixirs/lucky_magic_option.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/lucky_magic_option.png)
 
 _The left image shows a Magic Stone of Luck and the right image shows a blade which has the Lucky magic option applied to it._
 
@@ -59,14 +60,14 @@ Automation of alchemy ends up looking something like:
 
 There is a slight caveat which is that, in Silkroad, if you fail when trying +5 or higher, you have a chance of destroying your item. If that happens, I simply just spawn another blade, pick it up, and keep going.
 
-<video controls autoplay loop muted width="672" height="384" src="{{ site.baseurl }}/assets/images/first_alchemy.mp4" frameborder="0">Your browser does not support this video.</video>
+<video controls autoplay loop muted width="672" height="384" src="{{ site.baseurl }}/assets/images/alchemy-elixirs/first_alchemy.mp4" frameborder="0">Your browser does not support this video.</video>
 <br>
 
 ### Results
 
 Running this for a little less than a full day, I collected 30k samples:
 
-[![Elixir Only]({{ site.baseurl }}/assets/images/elixir_only.png)]({{ site.baseurl }}/assets/images/elixir_only.png)
+[![Elixir Only]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixir_only.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixir_only.png)
 _This plot shows the measured success rate (green) and the sample size (transparent purple)._
 
 The first thing we observe is that it appears that not all enhancement levels are equally likely. The lower ones are quite a bit easier. The second thing we observe is that it's very hard to get a high plus. Using these values, you would have approximately a 0.2% chance of getting +5 starting from +0 using 5 elixirs without failing.
@@ -85,13 +86,13 @@ The updated automation process looks like:
 
 After about 2000 trials, this is what my data looks like:
 
-[![Elixir And Powder]({{ site.baseurl }}/assets/images/elixir_powder.png)]({{ site.baseurl }}/assets/images/elixir_powder.png)
+[![Elixir And Powder]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixir_powder.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixir_powder.png)
 
 ### Ground Truth
 
 Meanwhile, while I let my data collection run, I reached out to the Silkroad Online development community and asked if anyone had tried to figure out alchemy rates in Silkroad Online. Lots of people have hosted their own private servers and I've seen a few which modified the alchemy rates. Immediately, Sector1337 from the SilkRust Discord server pointed out that the success rates of elixirs and also the effects of lucky powders are stored directly in the Silkroad server database. I happen to have access to that database, so let's take a look at that data.
 
-[![Database]({{ site.baseurl }}/assets/images/database.png)]({{ site.baseurl }}/assets/images/database.png)
+[![Database]({{ site.baseurl }}/assets/images/alchemy-elixirs/database.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/database.png)
 
 Here, `ITEM_ETC_ARCHEMY_REINFORCE_RECIPE_WEAPON_B` is the weapon elixir and `ITEM_ETC_ARCHEMY_REINFORCE_PROB_UP_A_10` is the lucky powder. For anyone familiar with the game, this set of `_A` elixirs is an older set of elixirs that only works with Chinese items. The `_B` set is the typical "Intensifying Elixir" that you see in the game. These work with both Chinese and European items, the two races in Silkroad.
 
@@ -113,7 +114,7 @@ For the above code, the output is
 
 If we interpret these as percent probabilities of success, these values very closely match our experimental results, at least for the plus values we were able to achieve with the bot.
 
-[![Compare Elixir]({{ site.baseurl }}/assets/images/compare_elixir.png)]({{ site.baseurl }}/assets/images/compare_elixir.png)
+[![Compare Elixir]({{ site.baseurl }}/assets/images/alchemy-elixirs/compare_elixir.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/compare_elixir.png)
 
 This is great! We now have ground truth data for the success rate of any elixir. According to the community, anything higher than +12 carries the same probability as +12. Now, what about lucky powders? Lets use the same technique on the database data.
 
@@ -129,7 +130,7 @@ for v in [840832008, 134744072, 134744072]:
 
 If we assume this is just an additive bonus on top of the elixir's success rate, let's see how that aligns with our experimental data.
 
-[![Compare Elixir and Powder]({{ site.baseurl }}/assets/images/compare_elixir_and_powder.png)]({{ site.baseurl }}/assets/images/compare_elixir_and_powder.png)
+[![Compare Elixir and Powder]({{ site.baseurl }}/assets/images/alchemy-elixirs/compare_elixir_and_powder.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/compare_elixir_and_powder.png)
 
 This pretty closely aligns with our data, except for +6 and higher, what's going on there? Looking back at our previous chart where we show the sample size, the sample size for these is really low, just 20, 2, 1, and 2 respectively. I think it's safe to assume that these discrepancies are due to small sample size.
 
@@ -151,7 +152,7 @@ Unfortunately, applying a Magic Stone of Luck takes as much time as applying a r
 
 After running this for a couple days, I collected about 50,000 samples. Let's see what effect we see with a Magic Stone of Luck compared to the ground truth of just an elixir and lucky powder.
 
-[![Elixir Powder and Stone]({{ site.baseurl }}/assets/images/elixir_powder_and_stone.png)]({{ site.baseurl }}/assets/images/elixir_powder_and_stone.png)
+[![Elixir Powder and Stone]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixir_powder_and_stone.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixir_powder_and_stone.png)
 
 Apart from the highest plus values, where we have comparatively low sample size, it looks like the luck stone applies a flat additive 5% chance of success. How do we verify this? We can keep sampling, but we'll never know for sure. Is there some way that we can mathematically state some confidence about a result?
 
@@ -159,7 +160,7 @@ Apart from the highest plus values, where we have comparatively low sample size,
 
 In statistics, a _binomial proportion confidence interval_ is a confidence interval for the probability of success calculated from the outcome of a series of success–failure experiments. The [Wilson score interval](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) is an improvement over the normal approximation interval. Using this concept, we can plug in a desired confidence, say 95%, and be able to calculate a lower bound and an upper bound for the likely actual value, based on the volume of data that we've collected. When we have little data, this confidence interval will be very wide. As we collect more data, this confidence interval will narrow down. As we approach infinite samples, the confidence interval should converge on the actual value. I've created a nice visualization using python to show how this confidence interval converges as more data is collected.
 
-[![Confidence Interval]({{ site.baseurl }}/assets/images/ci_plot.gif)]({{ site.baseurl }}/assets/images/ci_plot.gif)
+[![Confidence Interval]({{ site.baseurl }}/assets/images/alchemy-elixirs/ci_plot.gif)]({{ site.baseurl }}/assets/images/alchemy-elixirs/ci_plot.gif)
 
 - The blue data points show the ground truth success rate for elixirs.
 - The green data points show the ground truth success rate for elixirs when combined with lucky powders.
@@ -171,23 +172,23 @@ In statistics, a _binomial proportion confidence interval_ is a confidence inter
 
 In Silkroad, there are two other sources of luck. The first is a premium subscription ("Premium PLUS") which adds "5% increase in success rate".
 
-[![Premium]({{ site.baseurl }}/assets/images/premium.png)]({{ site.baseurl }}/assets/images/premium.png)
+[![Premium]({{ site.baseurl }}/assets/images/alchemy-elixirs/premium.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/premium.png)
 
 Quickly collecting 70k samples, it does seem to be the case that Premium does what it says.
 
-[![Premium Chart]({{ site.baseurl }}/assets/images/premium_chart.png)]({{ site.baseurl }}/assets/images/premium_chart.png)
+[![Premium Chart]({{ site.baseurl }}/assets/images/alchemy-elixirs/premium_chart.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/premium_chart.png)
 
 The second additional source of luck is an avatar with the Lucky magic option. Avatar dresses in Silkroad can have up to 4 magic attributes granted on them.
 
-[![Empty Avatar]({{ site.baseurl }}/assets/images/empty_avatar.png)]({{ site.baseurl }}/assets/images/empty_avatar.png)[![Lucky Avatar]({{ site.baseurl }}/assets/images/avatar_with_lucky.png)]({{ site.baseurl }}/assets/images/avatar_with_lucky.png)
+[![Empty Avatar]({{ site.baseurl }}/assets/images/alchemy-elixirs/empty_avatar.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/empty_avatar.png)[![Lucky Avatar]({{ site.baseurl }}/assets/images/alchemy-elixirs/avatar_with_lucky.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/avatar_with_lucky.png)
 
 In order to exaggerate the effects when collecting data, I created an avatar with 40% added luck.
 
-[![40% Avatar]({{ site.baseurl }}/assets/images/avatar_with_40_luck.png)]({{ site.baseurl }}/assets/images/avatar_with_40_luck.png)
+[![40% Avatar]({{ site.baseurl }}/assets/images/alchemy-elixirs/avatar_with_40_luck.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/avatar_with_40_luck.png)
 
 Again, with just 70k samples, the data does seem to reflect a flat additive increase in success rate.
 
-[![40% Avatar Chart]({{ site.baseurl }}/assets/images/40_avatar_chart.png)]({{ site.baseurl }}/assets/images/40_avatar_chart.png)
+[![40% Avatar Chart]({{ site.baseurl }}/assets/images/alchemy-elixirs/40_avatar_chart.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/40_avatar_chart.png)
 
 ## Intelligence
 
@@ -201,7 +202,7 @@ If our weapon is +0, then it seems obvious that we should immediately apply an e
 
 I am going to explain a mathematical model that we can use to make the above decision. To keep the calculations simple, I am going to use the success rates from the database of an elixir combined with a lucky powder, since this is the most common case. Luck stones can be rare, and avatars and premium subscriptions cost real money.
 
-[![Elixir and Powder Rates]({{ site.baseurl }}/assets/images/elixir_and_powder_rates.png)]({{ site.baseurl }}/assets/images/elixir_and_powder_rates.png)
+[![Elixir and Powder Rates]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixir_and_powder_rates.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixir_and_powder_rates.png)
 _Here are our rates again, to easily reference._
 
 First, it will be easiest to work with an example. If we have a +1 weapon and have 3 elixirs, what is the probability that we can make it to +2?
@@ -282,7 +283,7 @@ $$
 
 Now that we have the general formula, lets plot the data for a few different goals and see how many elixirs it will take to achieve each goal.
 
-[![Elixirs Required]({{ site.baseurl }}/assets/images/elixirs_required.png)]({{ site.baseurl }}/assets/images/elixirs_required.png)
+[![Elixirs Required]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixirs_required.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixirs_required.png)
 
 Each of these labeled points shows how many elixirs are required to have at least a 90% probability of achieving the goal.
 - To have at least a 90% chance of achieving +2, starting from +0, we need at least 10 elixirs
@@ -293,7 +294,7 @@ Each of these labeled points shows how many elixirs are required to have at leas
 
 If we plot this requirement for a few more goals, we see that it requires exponentially more elixirs to reach a higher plus. This is unsurpising.
 
-[![Elixirs Required 2]({{ site.baseurl }}/assets/images/elixirs_required_2.png)]({{ site.baseurl }}/assets/images/elixirs_required_2.png)
+[![Elixirs Required 2]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixirs_required_2.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/elixirs_required_2.png)
 
 ### Strategy
 
@@ -409,7 +410,7 @@ Summing up these probabilities, we get $$0.25 + 0.75 \cdot 0.7346588637693769 = 
 
 Here is a plot showing the minimum number of elixirs for goals 1-7 and a few $$R$$ values.
 
-[![Minimum Elixirs]({{ site.baseurl }}/assets/images/minimum_elixirs.png)]({{ site.baseurl }}/assets/images/minimum_elixirs.png)
+[![Minimum Elixirs]({{ site.baseurl }}/assets/images/alchemy-elixirs/minimum_elixirs.png)]({{ site.baseurl }}/assets/images/alchemy-elixirs/minimum_elixirs.png)
 
 ## Conclusion
 
